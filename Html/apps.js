@@ -92,7 +92,7 @@ app.controller("ChatCtrl", ["$scope", "chatMessages",
         $scope.deleteMessage= function (key) {
           console.log("deleting key:" + key );
 
-            //this deletes works
+            //this deletes works, but the one below work fine also.
             //$scope.entry= chatMessages.get({id: key}, function () {
             //    $scope.entry.$delete({id: key}, function () {
             //        console.log("delete successful!" );
@@ -106,11 +106,27 @@ app.controller("ChatCtrl", ["$scope", "chatMessages",
                 $scope.messages= chatMessages.get();
             });
         };
+
+
+
+
         $scope.updateMessage = function (key) {
             var newVal= window.prompt("new Value?");
 
             console.log("new value" + key + ":"  + newVal);
-            
+
+
+
+                    $scope.entry.update({id: key},{content: newVal }, function () {
+                        console.log("delete successful!" );
+
+                        $scope.messages= chatMessages.get();
+
+                    });
+
+
+
+
 
         };
         // if the messages are empty, add something for fun!
