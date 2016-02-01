@@ -9,7 +9,12 @@ var app = angular.module("app", ["ngResource"]);
 app.factory("chatMessages", ["$resource",
     function($resource) {
         // create a reference to the database location where we will store our data
-        var resource= $resource("https://luminous-torch-9391.firebaseio.com/ChatRoom/:id.json");
+        var resource = $resource("https://luminous-torch-9391.firebaseio.com/ChatRoom/:id.json" ,
+            {id: "@id"},
+            {
+                update: {method: "PATCH"}
+            }
+        );
         // this uses resource to create the synchronized array
         return resource;
     }
@@ -57,15 +62,57 @@ app.controller("ChatCtrl", ["$scope", "chatMessages",
         $scope.addMessage = function() {
             // calling $add on a synchronized array is like Array.push(),
             // except that it saves the changes to our database!
-            $scope.messages.$add({
+            //$scope.messages.$add({
+            //    from: $scope.user,
+            //    content: $scope.message
+            //});
+
+
+
+            chatMessages.save({
                 from: $scope.user,
                 content: $scope.message
-            });
+
+            }, function () {
+                    $scope.messages=chatMessages.get();
+                }
+            );
+
+
+
+
+
+
+
 
             // reset the message input
             $scope.message = "";
         };
 
+        $scope.deleteMessage= function (key) {
+          console.log("deleting key:" + key );
+
+            //this deletes works
+            //$scope.entry= chatMessages.get({id: key}, function () {
+            //    $scope.entry.$delete({id: key}, function () {
+            //        console.log("delete successful!" );
+            //        $scope.messages = chatMessages.get();
+            //    });
+            //
+            //});
+
+            (new chatMessages()).$delete({id: key}, function () {
+               console.log("delete successful");
+                $scope.messages= chatMessages.get();
+            });
+        };
+        $scope.updateMessage = function (key) {
+            var newVal= window.prompt("new Value?");
+
+            console.log("new value" + key + ":"  + newVal);
+            
+
+        };
         // if the messages are empty, add something for fun!
         //$scope.messages.$loaded(function() {
         //    if ($scope.messages.length === 0) {
