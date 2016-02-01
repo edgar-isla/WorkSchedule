@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-resource.min.js"></script>
+
+    <script src="https://cdn.firebase.com/js/client/2.2.4/firebase.js"></script>
+    <!--<script src="https://cdn.firebase.com/libs/angularfire/1.1.3/angularfire.min.js"></script>-->
+    <script src="apps.js"></script>
+</head>
+<body ng-controller="ChatCtrl">
+
+<!--panel-->
+<div ng-controlle="authCtrl">
+    <div>
+        <button class="btn btn-info" ng-click="login()">Login with gmail</button>
+
+    </div>
+    <br>
+    <div>
+        <button class="btn btn-info" ng-click="logout()">logout</button>
+
+    </div>
+
+</div>
+
+
+<div     class="alert alert-success">
+    <div style="text-align: center" class="alert alert-info">
+    <h3>Type your user name: <input type="text" ng-model="user"></h3>
+        </div>
+
+    <ul class="chatbox">
+        <li ng-repeat="message in messages">{{ message.from }}: {{ message.content }}</li>
+    </ul>
+    <form ng-submit="addMessage()">
+        <input type="text" ng-model="message">
+        <input class="btn btn-warning" type="submit" value="Add Message">
+
+    </form>
+</div>
+
+</body>
+</html>
